@@ -1,1 +1,3 @@
-# capstone_Blank-sVeterinaryClinicadinger@student.cvtc.edu
+# Blank's Veterinary Clinic
+
+adinger@student.cvtc.edu
