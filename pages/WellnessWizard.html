@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./css/index.css">
+  <link rel="stylesheet" href="./css/ww.css">
   <title>Blank's Veterinary Clinic WellnessWizard</title>
 </head>
 <body id="body">
@@ -19,9 +20,37 @@
   </nav>
 
   <div id="main">
-    <p>
-      [Generic Main Text Here]
-    </p>
+
+    <script>
+      
+    </script>
+
+    <form>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name"><br>
+
+      <label for="animak">Animal:</label>
+      <select>
+        <option id="dog" value="dog">Dog</option>
+        <option id="cat" value="cat">Cat</option>
+        <option id="bird" value="bird">Bird</option>
+        <option id="lizard" value="lizard">Lizard</option>
+      </select><br>
+
+      <label for="breed">Breed:</label>
+      <input type="text" id="breed" name="breed" placeholder="What breed is your pet?"><br>
+
+      <label for="question">Reason:</label>
+      <input type="text" id="question" name="question" placeholder="What is the reason for you visit?"><br>
+
+      <label for="date">When:</label>
+      <input type="date" id="date" name="date"><br>
+
+      <label for="notes">Notes:</label>
+      <input type="text" id="notes" name="notes" placeholder="Anything else we should know about?"><br>
+
+      <input id="submit" type="submit" value="Submit">
+    </form>
   </div>
 
   <footer>
