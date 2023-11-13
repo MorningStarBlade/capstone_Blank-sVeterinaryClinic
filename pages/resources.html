@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./css/index.css">
   <title>Blank's Veterinary Clinic</title>
+  <!-- Temp Placement-->
+  <style>
+    .emergency-contact {
+      font-weight: bold;
+      color: red;
+    }
+    .procedure-list {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    .procedure-list li:before {
+      content: '✓ ';
+      color: green;
+    }
+  </style>
+
 </head>
 <body id="body">
 
@@ -20,15 +36,38 @@
 
   <div id="main">
     <h2>Resources</h2>
+    <br>
     <p>
-      [Generic Main Text Here]
+        Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </p>
-    <p>
-        Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
-    </p>
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </p>
+    <br>
+    <hr>
+    <section id="emergency-info">
+        <h1>Emergency Information</h1>
+        
+        <p>If your pet is experiencing an emergency, please follow the steps below and contact us immediately at the provided emergency contact number.</p>
+        
+        <div class="contacts">
+          <h2>Contact Information</h2>
+          <p class="emergency-contact">Emergency Hotline: (123) 456-7890</p>
+          <p class="emergency-contact">After-Hours Number: (123) 456-7891</p>
+          <p>Address for emergency clinic visits: 123 Pet Health Drive, Petville, WI 12345</p>
+        </div>
+        
+        <div class="procedures">
+          <h2>Immediate Steps in an Emergency</h2>
+          <ul class="procedure-list">
+            <li>Remain calm and carefully assess the situation.</li>
+            <li>If possible, safely transport your pet to our clinic, or the nearest emergency veterinary clinic.</li>
+            <li>Call ahead to the emergency number provided so the clinic can prepare for your arrival.</li>
+            <li>Avoid giving any medications or home remedies without consulting a vet first.</li>
+            <li>Bring any relevant medical history or information about your pet.</li>
+          </ul>
+        </div>
+      </section>
+      <br>
+      <hr>
+
 
     <h3>List of Resources</h3>
     <ul>
