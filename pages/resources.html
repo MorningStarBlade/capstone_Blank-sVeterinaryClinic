@@ -24,15 +24,13 @@
 </head>
 <body id="body">
 
-  <div id="b-head">
-    <h1>Dr. Blank's Veterinary Clinic</h1>
-  </div>
-
-  <nav>
-    <p>
-      [Generic Nav Text Here]
-    </p>
-  </nav>
+  <script>
+    fetch('header.html')
+      .then(response => response.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('afterbegin', html);
+      });
+  </script>
 
   <div id="main">
     <h2>Resources</h2>
@@ -102,11 +100,13 @@
 
   </div>
 
-  <footer>
-    <p>
-        Dr. Blank's Veterinary Clinic &copy; 2023
-    </p>
-  </footer>
+  <script>
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+      });
+  </script>
 
   <script>
     // For FAQ dropdown menu
