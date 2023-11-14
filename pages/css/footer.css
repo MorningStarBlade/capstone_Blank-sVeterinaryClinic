@@ -1,0 +1,15 @@
+footer {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .footer-line {
+    border-top: 2px solid #00bfff;
+    margin-bottom: 10px;
+  }
+  
+  .copyright {
+    font-size: 0.8em;
+    color: black;
+  }
+  
