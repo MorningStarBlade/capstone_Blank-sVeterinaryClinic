@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('css/indexCss'); %>
+  <%- include('css/wwCss'); %>
+  <title>Blank's Veterinary Clinic WellnessWizard</title>
+</head>
+<body id="body">
+
+  <%- include('header'); %>
+
+  <div id="main">
+
+    <p id="output"></p>
+
+    <form method="post" action="/app">
+      <label>Name:</label>
+      <input type="text" id="form_name" name="name"><br>
+
+      <label>Age:</label>
+      <input type="number" id="form_age" name="age"><br>
+
+      <label>Animal:</label>
+      <select name="animal" id="form_animal">
+        <option id="dog" value="dog">Dodge</option>
+        <option id="cat" value="cat">Kittie</option>
+        <option id="bird" value="bird">Birb</option>
+        <option id="lizard" value="lizard">Lizard Wizard</option>
+        <option id="bunny" value="bunny">Bunny</option>
+      </select><br>
+
+      <label>Breed:</label>
+      <input type="text" id="form_breed" name="breed" placeholder="What breed is your pet?"><br>
+
+      <label>Reason:</label>
+      <input type="text" id="form_reason" name="reason" placeholder="What is the reason for you visit?"><br>
+
+      <label>When:</label>
+      <input type="date" id="form_date" name="date"><br>
+
+      <label>Notes:</label>
+      <input type="text" id="form_notes" name="notes" placeholder="Anything else we should know about?"><br>
+
+      <button id="submit" onclick="javascript:send();">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    const output = document.getElementById("output");
+
+    const send = async function(){
+      const Name = document.getElementById("form_name").value;
+      const Age = document.getElementById("form_age").value;
+      const Animal = document.getElementById("form_animal").value;
+      const Breed = document.getElementById("form_breed").value;
+      const Reason = document.getElementById("form_reason").value;
+      const FDate = document.getElementById("form_date").value;
+      const Notes = document.getElementById("form_notes").value;
+
+      const response = await fetch("/app", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: Name,
+          age: Age,
+          animal: Animal,
+          breed: Breed,
+          reason: Reason,
+          date: FDate,
+          notes: Notes
+        })
+      });
+
+      const result = await response.json();
+
+      if(result.error){
+        output.innerHTML = `<strong>ERROR</strong>`;
+      } else {
+        alert(`We can't wait to see ${Name} at ${FDate}!`);
+      }
+
+      location.href = '/WellnessWizard.ejs';
+
+    };
+  </script>
+
+  <%- include('footer'); %>
+  
+</body>
+</html>  
