@@ -14,162 +14,180 @@
   <%- include('header'); %>
 
   <div id="main">
-    <h2>Resources</h2>
-    <br>
-    <p>Quick Links for easy Navigation on this page</p>
-    <br>
     <hr>
-    <h3>Find the nearest clinic near you:</h3>
-    <p>
-      Access Blank's Vet Clinic locations easily with our interactive map. Just enter your zip code and click "Find Nearest Clinic" to view the closest facility. The map will zoom in on the location, and you can click markers for details about each clinic. This feature is designed for convenience and can be used on any device, ensuring you're always just a few clicks away from finding the best care for your pet.
-    </p>
-    <div class="zip-input-container">
-      <label for="zip-code">Enter Zip Code:</label>
-      <input type="text" id="zip-code" name="zip-code">
-      <button onclick="focusOnNearestClinic()">Find Nearest Clinic</button>
-    </div>
-    <br>
-    <div id="map" class="map"></div>
-    <script type="text/javascript">
-       // Define clinic locations
-      var clinicLocations = [
-        { id: 1, coordinates: [-91.4984941, 44.811349] }, // Eau Claire, WI
-        { id: 2, coordinates: [randomLon(), randomLat()] }, // Random Location 2
-        { id: 3, coordinates: [randomLon(), randomLat()] }, // Random Location 3
-        { id: 4, coordinates: [randomLon(), randomLat()] }, // Random Location 4
-        { id: 5, coordinates: [randomLon(), randomLat()] }, // Random Location 5
-      ];
-
-      // Initialize map
-      var map = new ol.Map({
-        target: 'map', // The id of the map container
-        layers: [
-          // Add a layer to use the OpenStreetMap map data
-          new ol.layer.Tile({
-            source: new ol.source.OSM()
-          })
-        ],
-        // Set the view to a specific location and zoom level
-        view: new ol.View({
-          center: ol.proj.fromLonLat([37.41, 8.82]), // This should be the approximate center of the clinic locations
-          zoom: 4
-        })
-      });
-    
-      // Markers for each clinic location
-      clinicLocations.forEach(function(location) {
-        var clinicMarker = new ol.Feature({
-          geometry: new ol.geom.Point(ol.proj.fromLonLat(location.coordinates))
-        });
-
-        var vectorSource = new ol.source.Vector({
-          features: [clinicMarker]
-        });
-
-        var markerLayer = new ol.layer.Vector({
-          source: vectorSource,
-        });
-
-        map.addLayer(markerLayer);
-      });
-
-      // Generate random longitude values
-      function randomLon() {
-        return Math.random() * 360 - 180;
-      }
-
-      // Generate random latitude values
-      function randomLat() {
-        return Math.random() * 180 - 90;
-      }
-
-      // Focus on the nearest clinic based on the given zip code
-      function focusOnNearestClinic() {
-        var zipCodeInput = document.getElementById('zip-code').value;
-        // Still needs the logic to determine the nearest location based on the zip code.
-        // For now, the map will be centered on Eau Claire, WI.
-        var eauClaireLocation = clinicLocations.find(location => location.id === 1).coordinates;
-        map.getView().animate({ center: ol.proj.fromLonLat(eauClaireLocation), zoom: 10 });
-      }
-    </script>
+    <header>
+      <h2>Resources</h2>
+      <nav>
+        <a href="#emergency-info">Emergency Info</a> |
+        <a href="#locations">Clinic Locator</a> |
+        <a href="#faq">FAQ</a> |
+        <a href="#additional-resources">Additional Resources</a>
+      </nav>
+    </header>
     <br>
     <hr>
     <section id="emergency-info">
-        <h1>Emergency Information</h1>
-        
-        <p>If your pet is experiencing an emergency, please follow the steps below and contact us immediately at the provided emergency contact number.</p>
-        
-        <div class="contacts">
-          <h2>Contact Information</h2>
-          <p class="emergency-contact">Emergency Hotline: (123) 456-7890</p>
-          <p class="emergency-contact">After-Hours Number: (123) 456-7891</p>
-          <p>Address for emergency clinic visits: 123 Pet Health Drive, Petville, WI 12345</p>
-        </div>
-        
-        <div class="procedures">
-          <h2>Immediate Steps in an Emergency</h2>
-          <ul class="procedure-list">
-            <li>Remain calm and carefully assess the situation.</li>
-            <li>If possible, safely transport your pet to our clinic, or the nearest emergency veterinary clinic.</li>
-            <li>Call ahead to the emergency number provided so the clinic can prepare for your arrival.</li>
-            <li>Avoid giving any medications or home remedies without consulting a vet first.</li>
-            <li>Bring any relevant medical history or information about your pet.</li>
-          </ul>
-        </div>
-      </section>
+      <h3>Emergency Information</h3>
+      
+      <p>If your pet is experiencing an emergency, please follow the steps below and contact us immediately at the provided emergency contact number.</p>
+      
+      <div class="contacts">
+        <h2>Contact Information</h2>
+        <p class="emergency-contact">Emergency Hotline: (123) 456-7890</p>
+        <p class="emergency-contact">After-Hours Number: (123) 456-7891</p>
+        <p>Address for emergency clinic visits: 123 Pet Health Drive, Petville, WI 12345</p>
+      </div>
+      
+      <div class="procedures">
+        <h2>Immediate Steps in an Emergency</h2>
+        <ul class="procedure-list">
+          <li>Remain calm and carefully assess the situation.</li>
+          <li>If possible, safely transport your pet to our clinic, or the nearest emergency veterinary clinic.</li>
+          <li>Call ahead to the emergency number provided so the clinic can prepare for your arrival.</li>
+          <li>Avoid giving any medications or home remedies without consulting a vet first.</li>
+          <li>Bring any relevant medical history or information about your pet.</li>
+        </ul>
+      </div>
+    </section>
+    <br>
+    <hr>
+    <section id="locations">
+      <h3>Find the nearest clinic near you:</h3>
+      <p>
+        Access Blank's Vet Clinic locations easily with our interactive map. Just enter your zip code and click "Find Nearest Clinic" to view the closest facility. The map will zoom in on the location, and you can click markers for details about each clinic. This feature is designed for convenience and can be used on any device, ensuring you're always just a few clicks away from finding the best care for your pet.
+      </p>
+      <div class="zip-input-container">
+        <label for="zip-code">Enter Zip Code:</label>
+        <input type="text" id="zip-code" name="zip-code">
+        <button onclick="focusOnNearestClinic()">Find Nearest Clinic</button>
+      </div>
       <br>
-      <hr>
+      <div id="map" class="map"></div>
+      <script type="text/javascript">
+        // Define clinic locations
+        var clinicLocations = [
+          { id: 1, coordinates: [-91.4984941, 44.811349] }, // Eau Claire, WI
+          { id: 2, coordinates: [randomLon(), randomLat()] }, // Random Location 2
+          { id: 3, coordinates: [randomLon(), randomLat()] }, // Random Location 3
+          { id: 4, coordinates: [randomLon(), randomLat()] }, // Random Location 4
+          { id: 5, coordinates: [randomLon(), randomLat()] }, // Random Location 5
+        ];
 
+        // Initialize map
+        var map = new ol.Map({
+          target: 'map', // The id of the map container
+          layers: [
+            // Add a layer to use the OpenStreetMap map data
+            new ol.layer.Tile({
+              source: new ol.source.OSM()
+            })
+          ],
+          // Set the view to a specific location and zoom level
+          view: new ol.View({
+            center: ol.proj.fromLonLat([37.41, 8.82]), // This should be the approximate center of the clinic locations
+            zoom: 4
+          })
+        });
+      
+        // Markers for each clinic location
+        clinicLocations.forEach(function(location) {
+          var clinicMarker = new ol.Feature({
+            geometry: new ol.geom.Point(ol.proj.fromLonLat(location.coordinates))
+          });
 
-    <h3>List of Resources</h3>
-    <ul>
-        <li>Resource Link 1</li>
-        <li>Resource Link 2</li>
-        <li>Resource Link 3</li>
-    </ul>
-    <h3>FAQ</h3>
-    <h4 onclick="toggleContent('question1', 'icon1');" class="toggle-icon">
-    <span id="icon1">►</span>What are the clinic's hours of operation?</h4>
-    <div id="question1" style="display: none;">
-        <p>
-            Details for Question 1... Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-    </div>
+          var vectorSource = new ol.source.Vector({
+            features: [clinicMarker]
+          });
 
-    <h4 onclick="toggleContent('question2', 'icon2');" class="toggle-icon">
-    <span id="icon2">►</span>Do I need an appointment to see a vet, or do you accept walk-ins?</h4>
-    <div id="question2" style="display: none;">
-        <p>
-            Details for Question 2... Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-    </div>
+          var markerLayer = new ol.layer.Vector({
+            source: vectorSource,
+          });
 
-    <h4 onclick="toggleContent('question3', 'icon3');" class="toggle-icon">
-    <span id="icon3">►</span>What kind of animals do you treat at your clinic?</h4>
-    <div id="question3" style="display: none;">
-        <p>
-            Details for Question 3... Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-    </div>
+          map.addLayer(markerLayer);
+        });
+
+        // Generate random longitude values
+        function randomLon() {
+          return Math.random() * 360 - 180;
+        }
+
+        // Generate random latitude values
+        function randomLat() {
+          return Math.random() * 180 - 90;
+        }
+
+        // Focus on the nearest clinic based on the given zip code
+        function focusOnNearestClinic() {
+          var zipCodeInput = document.getElementById('zip-code').value;
+          // Still needs the logic to determine the nearest location based on the zip code.
+          // For now, the map will be centered on Eau Claire, WI.
+          var eauClaireLocation = clinicLocations.find(location => location.id === 1).coordinates;
+          map.getView().animate({ center: ol.proj.fromLonLat(eauClaireLocation), zoom: 10 });
+        }
+      </script>
+    </section>
+    <br>
+    <hr>
+    <section id="faq">
+      <h3>FAQ</h3>
+      <h4 onclick="toggleContent('question1', 'icon1');" class="toggle-icon">
+      <span id="icon1">►</span>What are the clinic's hours of operation?</h4>
+      <div id="question1" style="display: none;">
+          <p>
+            Our doors swing open at the crack of 9 AM, just after our coffee machines start percolating the elixir of life. We wrap up at 5 PM, because even our stethoscopes need their beauty sleep. We're here Monday to Friday, but on weekends, we let the clinic's ghost keep an eye on things.
+          </p>
+      </div>
+
+      <h4 onclick="toggleContent('question2', 'icon2');" class="toggle-icon">
+      <span id="icon2">►</span>Do I need an appointment to see a vet, or do you accept walk-ins?</h4>
+      <div id="question2" style="display: none;">
+          <p>
+            Appointments are preferred—it helps us ensure your pet isn't kept waiting while we're playing hide and seek with a particularly cunning hamster. But if you decide to just swan in, we'll fit you in between the tickles and treats sessions. Just be warned, our lobby magazine selection hasn't been updated since the '90s.
+          </p>
+      </div>
+
+      <h4 onclick="toggleContent('question3', 'icon3');" class="toggle-icon">
+      <span id="icon3">►</span>What kind of animals do you treat at your clinic?</h4>
+      <div id="question3" style="display: none;">
+          <p>
+            We treat all creatures great and small, except maybe dinosaurs—still working on that time machine. Dogs, cats, rabbits, birds, lizards, and pocket pets are all welcome. If your pet can fit through the door without us having to call in structural engineers, we're probably equipped to handle it.
+          </p>
+      </div>
+    </section>
+    <br>
 
   </div>
+    <section id="additional-resources">  
+        <h3>Helpful links about Pet Health:</h3>
+        <ul>
+          <li>
+            <a href="https://www.aaha.org/your-pet/pet-owner-education/" target="_blank">AAHA Pet Owner Resources</a> - Reliable pet care, health, and wellness information reviewed by veterinary professionals.
+          </li>
+          <li>
+            <a href="https://www.aspca.org/pet-care/animal-poison-control" target="_blank">ASPCA Animal Poison Control Center</a> - Essential resource for pet poisoning emergencies with a 24/7 hotline.
+          </li>
+          <li>
+            <a href="https://veterinarypartner.vin.com/default.aspx?pid=19239&id=4951486" target="_blank">Veterinary Partner - Behavior Articles</a> - Expert advice on pet behavior, training tips, and managing behavioral issues.
+          </li>
+        </ul>
+      </section>
+      <br>
 
   <%- include('footer'); %>
 
-  <script>
-    // For FAQ dropdown menu
-    function toggleContent(id, iconId) {
-      var content = document.getElementById(id);
-      var icon = document.getElementById(iconId);
-      if (content.style.display === "block") {
-        content.style.display = "none";
-        icon.innerHTML = '►';
-      } else {
-        content.style.display = "block";
-        icon.innerHTML = '▼';
+    <script>
+      // For FAQ dropdown menu
+      function toggleContent(id, iconId) {
+        var content = document.getElementById(id);
+        var icon = document.getElementById(iconId);
+        if (content.style.display === "block") {
+          content.style.display = "none";
+          icon.innerHTML = '►';
+        } else {
+          content.style.display = "block";
+          icon.innerHTML = '▼';
+        }
       }
-    }
     </script>
-  
 </body>
 </html>
