@@ -6,7 +6,30 @@
   <%- include('css/indexCss'); %>
   <%- include('css/resourceCss'); %>
   <title>Blank's Veterinary Clinic</title>
+<<<<<<< Updated upstream:views/resources.ejs
+=======
+<<<<<<< Updated upstream:pages/resources.html
+  <!-- Temp Placement-->
+  <style>
+    .emergency-contact {
+      font-weight: bold;
+      color: red;
+    }
+    .procedure-list {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    .procedure-list li:before {
+      content: '✓ ';
+      color: green;
+    }
+  </style>
+>>>>>>> Stashed changes:pages/resources.html
 
+=======
+  <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v6.5.0/css/ol.css" type="text/css">
+<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v6.5.0/build/ol.js"></script>
+>>>>>>> Stashed changes:views/resources.ejs
 </head>
 <body id="body">
 
@@ -15,9 +38,82 @@
   <div id="main">
     <h2>Resources</h2>
     <br>
+    <p>Quick Links for easy Navigation on this page</p>
+    <br>
+    <hr>
+    <h3>Find the nearest clinic near you:</h3>
     <p>
-        Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      Access Blank's Vet Clinic locations easily with our interactive map. Just enter your zip code and click "Find Nearest Clinic" to view the closest facility. The map will zoom in on the location, and you can click markers for details about each clinic. This feature is designed for convenience and can be used on any device, ensuring you're always just a few clicks away from finding the best care for your pet.
     </p>
+    <div class="zip-input-container">
+      <label for="zip-code">Enter Zip Code:</label>
+      <input type="text" id="zip-code" name="zip-code">
+      <button onclick="focusOnNearestClinic()">Find Nearest Clinic</button>
+    </div>
+    <br>
+    <div id="map" class="map"></div>
+    <script type="text/javascript">
+       // Define clinic locations
+      var clinicLocations = [
+        { id: 1, coordinates: [-91.4984941, 44.811349] }, // Eau Claire, WI
+        { id: 2, coordinates: [randomLon(), randomLat()] }, // Random Location 2
+        { id: 3, coordinates: [randomLon(), randomLat()] }, // Random Location 3
+        { id: 4, coordinates: [randomLon(), randomLat()] }, // Random Location 4
+        { id: 5, coordinates: [randomLon(), randomLat()] }, // Random Location 5
+      ];
+
+      // Initialize map
+      var map = new ol.Map({
+        target: 'map', // The id of the map container
+        layers: [
+          // Add a layer to use the OpenStreetMap map data
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        // Set the view to a specific location and zoom level
+        view: new ol.View({
+          center: ol.proj.fromLonLat([37.41, 8.82]), // This should be the approximate center of the clinic locations
+          zoom: 4
+        })
+      });
+    
+      // Markers for each clinic location
+      clinicLocations.forEach(function(location) {
+        var clinicMarker = new ol.Feature({
+          geometry: new ol.geom.Point(ol.proj.fromLonLat(location.coordinates))
+        });
+
+        var vectorSource = new ol.source.Vector({
+          features: [clinicMarker]
+        });
+
+        var markerLayer = new ol.layer.Vector({
+          source: vectorSource,
+        });
+
+        map.addLayer(markerLayer);
+      });
+
+      // Generate random longitude values
+      function randomLon() {
+        return Math.random() * 360 - 180;
+      }
+
+      // Generate random latitude values
+      function randomLat() {
+        return Math.random() * 180 - 90;
+      }
+
+      // Focus on the nearest clinic based on the given zip code
+      function focusOnNearestClinic() {
+        var zipCodeInput = document.getElementById('zip-code').value;
+        // Still needs the logic to determine the nearest location based on the zip code.
+        // For now, the map will be centered on Eau Claire, WI.
+        var eauClaireLocation = clinicLocations.find(location => location.id === 1).coordinates;
+        map.getView().animate({ center: ol.proj.fromLonLat(eauClaireLocation), zoom: 10 });
+      }
+    </script>
     <br>
     <hr>
     <section id="emergency-info">
@@ -71,7 +167,7 @@
     </div>
 
     <h4 onclick="toggleContent('question3', 'icon3');" class="toggle-icon">
-    <span id="icon2">►</span>What kind of animals do you treat at your clinic?</h4>
+    <span id="icon3">►</span>What kind of animals do you treat at your clinic?</h4>
     <div id="question3" style="display: none;">
         <p>
             Details for Question 3... Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
