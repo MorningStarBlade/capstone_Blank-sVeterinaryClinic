@@ -1,18 +1,136 @@
 <style>
-  .emergency-contact {
-      font-weight: bold;
-      color: red;
-    }
-    .procedure-list {
-      list-style-type: none;
-      padding-left: 0;
-    }
-    .procedure-list li:before {
-      content: '✓ ';
-      color: green;
-    }
-    .map {
-    width: 100%;
-    height: 400px;
+/* General reset */
+* {
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Basic styling */
+body {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Header */
+header {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+header nav {
+  margin-top: 1rem;
+}
+
+header nav a {
+  color: #007bff;
+  text-decoration: none;
+  padding: 0.5rem;
+}
+
+header nav a:hover {
+  text-decoration: underline;
+}
+
+/* Main content area */
+#main {
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 20px auto; 
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+  background: #fff; 
+  border-radius: 5px;
+}
+
+/* Emergency Info */
+#emergency-info h2,
+#emergency-info h3 {
+  color: #ff4136;
+}
+
+.contacts,
+.procedures {
+  margin-bottom: 1rem;
+}
+
+.procedures ul {
+  list-style-type: none;
+}
+
+/* Clinic locator map container */
+.map {
+  width: 100%;
+  height: 300px; /* Adjust height as needed */
+  margin-bottom: 1rem;
+}
+
+/* Zip code input container */
+.zip-input-container {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.zip-input-container label {
+  margin-right: 0.5rem;
+}
+
+.zip-input-container input {
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.zip-input-container button {
+  padding: 0.5rem;
+  background-color: rgb(107, 73, 219);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.zip-input-container button:hover {
+  background-color: rgb(200, 160, 300);
+}
+
+/* FAQ section */
+#faq h4 {
+  cursor: pointer;
+  color: #007bff;
+}
+
+#faq div {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #c7c9ca;
+}
+
+/* Additional resources */
+#additional-resources ul {
+  list-style-type: none;
+}
+
+#additional-resources li {
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  /* Adjust map height for smaller devices */
+  .map {
+    height: 200px;
   }
+
+  /* Stack nav links vertically */
+  header nav a {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Adjust padding and centering on mobile */
+  #main {
+    padding: 0.5rem;
+    max-width: none; /* Allow the main content to fill the screen on mobile */
+  }
+}
+
 </style>
