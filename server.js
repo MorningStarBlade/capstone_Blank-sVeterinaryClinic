@@ -39,6 +39,8 @@ app.get("/resources.ejs",(req, res) => {
   res.render('resources');
 });
 
+// For Wellness Wizard
+
 app.get("/app", (req, res) => {
   res.redirect('/WellnessWizard');
 });
@@ -76,6 +78,8 @@ app.post("/app", async(req, res) => {
     });
   }
 });
+
+
 
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
