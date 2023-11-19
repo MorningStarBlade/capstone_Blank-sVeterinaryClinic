@@ -12,7 +12,7 @@ const pool = new Pool({
   }
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -68,8 +68,6 @@ app.post("/app", async(req, res) => {
     res.json(response);
 
     client.release();
-
-    //res.render('WellnessWizard');
 
   } catch (err){
     console.error(err);
