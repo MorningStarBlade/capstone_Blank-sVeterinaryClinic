@@ -31,16 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-<<<<<<< HEAD
-// Middleware to add user to res.locals for all views
-app.use((req, res, next) => {
-  res.locals.user = req.session.user;
-  next();
-});
-
-=======
 // For general navigation
->>>>>>> 2bf865fb21720464bce134867838f8698c85e011
 app.get("/", (req, res) => {
   res.render('index');
 });
@@ -65,12 +56,14 @@ app.get("/login.ejs", (req, res) => {
   res.render('login');
 });
 
+app.get("/employeeLogin.ejs", (req, res) => {
+  res.render('employeeLogin');
+});
+
 app.get("/createAccount.ejs", (req, res) => {
   res.render('createAccount');
 });
 
-<<<<<<< HEAD
-=======
 // For Wellness Wizard
 app.get("/app", (req, res) => {
   res.redirect('/WellnessWizard');
@@ -146,7 +139,6 @@ app.post("/createAccount", async (req, res) => {
 
 
 // For Login
->>>>>>> 2bf865fb21720464bce134867838f8698c85e011
 app.post("/login", async (req, res) => {
   try {
     const client = await pool.connect();
@@ -192,29 +184,6 @@ app.post("/login", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-app.get('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      console.error('Error destroying session:', err);
-    } else {
-      res.redirect('/login.ejs');
-    }
-  });
-});
-
-app.post('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      console.error('Error destroying session:', err);
-    } else {
-      res.redirect('/login.ejs');
-    }
-  });
-});
-
-app.listen(PORT, () => console.log(`Listening on ${PORT}`));
-=======
 // For Bio Pages
 app.get("/views/blank.ejs",(req, res) => {
   res.render('blank');
@@ -237,4 +206,3 @@ app.get("/views/margret.ejs",(req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
->>>>>>> 2bf865fb21720464bce134867838f8698c85e011
