@@ -1,37 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./css/index.css">
-  <title>Blank's Veterinary Clinic</title>
+  <title>Blank's Veterinary Clinic - Employee Account</title>
 </head>
-
 <body id="body">
 
-  <%- include('header'); %>
+  <% include('header'); %>
 
   <div id="main">
-    <h2>Employee Login:</h2>
+    <h2>Create an Employee Account:</h2>
     <p>
-      <form action="/employee-login" method="POST">
+      <form action="/createEmployeeAccount" method="POST">
         <label for="employeeId">Employee ID:</label><br>
         <input type="text" id="employeeId" name="employeeId" required><br>
 
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password" required><br>
 
-        <button type="submit">Login</button>
+        <button type="submit">Create Employee Account</button>
       </form>
-    </p>
-    <p>
-      Don't have an account? <a href="/createEmployeeAccount.ejs">Create one here!</a>
     </p>
   </div>
 
-  <%- include('footer'); %>
-
+  <% include('footer'); %>
+  
 </body>
-
 </html>
