@@ -113,6 +113,27 @@ app.post("/app", async(req, res) => {
   }
 });
 
+// For Bio pages
+app.get("/views/blank.ejs", (req, res) => {
+  res.render('blank');
+});
+
+app.get("/views/dav.ejs", (req, res) => {
+  res.render('dav');
+});
+
+app.get("/views/grace.ejs", (req, res) => {
+  res.render('grace');
+});
+
+app.get("/views/izzy.ejs", (req, res) => {
+  res.render('izzy');
+});
+
+app.get("/views/margret.ejs", (req, res) => {
+  res.render('margret');
+});
+
 // For create account
 app.post("/createAccount", async (req, res) => {
   try {
