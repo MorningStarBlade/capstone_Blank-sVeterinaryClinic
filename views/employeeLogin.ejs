@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./css/index.css">
+  <%- include('css/indexCss'); %>
+  <%- include('css/employeeLoginCss.ejs'); %>
   <title>Blank's Veterinary Clinic</title>
 </head>
 
@@ -25,9 +26,13 @@
         <button type="submit">Login</button>
       </form>
     </p>
+<<<<<<< HEAD
     <p>
       Don't have an account? <a href="/createEmployeeAccount.ejs">Create one here!</a>
     </p>
+=======
+    <p><strong>Please talk to your employer if you do not have an employee ID.</strong></p>
+>>>>>>> 7a40833aa46f16a02ae070cfa622a2bb5b9ab40a
   </div>
 
   <%- include('footer'); %>
