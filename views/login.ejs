@@ -10,18 +10,30 @@
 
   <%- include('header'); %>
 
+  <% if (typeof message !== 'undefined') { %>
+    <p><%= message %></p>
+  <% } %>
+
   <div id="main">
+
+    <% if (typeof errorMessage !== 'undefined') { %>
+      <p style="color: red;"><%= errorMessage %></p>
+    <% } %>
+    
     <h2>Login:</h2>
     <p>
-      <form>
+      <form action="/login" method="POST">
         <label for="email">Email:</label><br>
         <input type="text" id="email" name="email"><br>
 
         <label for="password">Password:</label><br>
-        <input type="text" id="password" name="lname"><br>
+        <input type="password" id="password" name="password"><br>
 
-        <button>Login</button>
+        <button type="submit">Login</button>
       </form>
+    </p>
+    <p>
+      Don't have an account? <a href="/createAccount.ejs">Create one here!</a>
     </p>
   </div>
 

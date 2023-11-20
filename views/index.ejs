@@ -11,7 +11,13 @@
 
   <%- include('header'); %>
 
+  <% if (typeof message !== 'undefined') { %>
+    <p><%= message %></p>
+  <% } %>
+  
   <img src="/pictures/homePage.jpg" alt="Home Page" width="700px" height="700px">
+
+
 
   <%- include('footer'); %>
   

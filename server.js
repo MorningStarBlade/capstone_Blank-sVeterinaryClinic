@@ -4,6 +4,9 @@ const app = express();
 const path = require("path");
 const PORT = process.env.PORT || 5163;
 const {Pool} = require("pg");
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -37,6 +40,14 @@ app.get("/WellnessWizard.ejs",(req, res) => {
 
 app.get("/resources.ejs",(req, res) => {
   res.render('resources');
+});
+
+app.get("/login.ejs",(req, res) => {
+  res.render('login');
+});
+
+app.get("/createAccount.ejs",(req, res) => {
+  res.render('createAccount');
 });
 
 // For Wellness Wizard
@@ -78,6 +89,85 @@ app.post("/app", async(req, res) => {
     });
   }
 });
+
+// For create account
+app.post("/createAccount", async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    const firstName = req.body.fname;
+    const lastName = req.body.lname;
+    const email = req.body.email;
+    const password = req.body.password;
+
+    // Hash the password using bcrypt
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    const insertSql = `
+      INSERT INTO users (first_name, last_name, email, password)
+      VALUES ($1, $2, $3, $4)
+    `;
+
+    await client.query(insertSql, [firstName, lastName, email, hashedPassword]);
+
+    // Redirect to the login page with a success message
+    const successMessage = `You've successfully created an account now you can log in!`;
+
+    res.render('login', { message: successMessage });
+
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: err.message || "Internal Server Error",
+    });
+  }
+});
+
+
+
+
+// For Login
+app.post("/login", async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    const email = req.body.email;
+    const enteredPassword = req.body.password;
+
+    const querySql = `
+      SELECT * FROM users WHERE email = $1
+    `;
+
+    const result = await client.query(querySql, [email]);
+
+    if (result.rows.length > 0) {
+      const storedPassword = result.rows[0].password;
+
+      const passwordMatch = await bcrypt.compare(enteredPassword, storedPassword);
+
+      if (passwordMatch) {
+        const welcomeMessage = `Welcome, ${result.rows[0].first_name}!`;
+
+        res.render('index', { message: welcomeMessage });
+      } else {
+        // Render the login page with an error message
+        res.render('login', { errorMessage: "Invalid email or password" });
+      }
+    } else {
+      // Render the login page with an error message
+      res.render('login', { errorMessage: "Invalid email or password" });
+    }
+
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: err.message || "Internal Server Error",
+    });
+  }
+});
+
 
 
 
