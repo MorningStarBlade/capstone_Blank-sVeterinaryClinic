@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <%- include('css/employeeLoginCss.ejs'); %>
   <title>Blank's Veterinary Clinic</title>
 </head>
+
 <body id="body">
 
   <%- include('header'); %>
@@ -14,20 +16,27 @@
   <div id="main">
     <h2>Employee Login:</h2>
     <p>
-      <form>
+      <form action="/employee-login" method="POST">
         <label for="employeeId">Employee ID:</label><br>
-        <input type="text" id="employeeId" name="employeeId"><br>
+        <input type="text" id="employeeId" name="employeeId" required><br>
 
         <label for="password">Password:</label><br>
-        <input type="text" id="password" name="lname"><br>
+        <input type="password" id="password" name="password" required><br>
 
-        <button>Login</button>
+        <button type="submit">Login</button>
       </form>
     </p>
+<<<<<<< HEAD
+    <p>
+      Don't have an account? <a href="/createEmployeeAccount.ejs">Create one here!</a>
+    </p>
+=======
     <p><strong>Please talk to your employer if you do not have an employee ID.</strong></p>
+>>>>>>> 7a40833aa46f16a02ae070cfa622a2bb5b9ab40a
   </div>
 
   <%- include('footer'); %>
-  
+
 </body>
+
 </html>

@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(sessions({
   secret: "capstone",
   saveUninitialized: true,
-  cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 1 day
+  cookie: { maxAge: 1000 * 60 * 60 * 24 },
   resave: false
 }));
 
@@ -30,6 +30,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+
+app.use((req, res, next) => {
+  res.locals.user = req.session.user;
+  res.locals.employee = req.session.employee;
+  next();
+});
 
 // For general navigation
 app.get("/", (req, res) => {
@@ -62,6 +68,10 @@ app.get("/employeeLogin.ejs", (req, res) => {
 
 app.get("/createAccount.ejs", (req, res) => {
   res.render('createAccount');
+});
+
+app.get("/createEmployeeAccount.ejs", (req, res) => {
+  res.render('createEmployeeAccount');
 });
 
 // For Wellness Wizard
@@ -113,7 +123,6 @@ app.post("/createAccount", async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    // Hash the password using bcrypt
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const insertSql = `
@@ -123,7 +132,6 @@ app.post("/createAccount", async (req, res) => {
 
     await client.query(insertSql, [firstName, lastName, email, hashedPassword]);
 
-    // Redirect to the login page with a success message
     const successMessage = `You've successfully created an account now you can log in!`;
 
     res.render('login', { message: successMessage });
@@ -136,7 +144,6 @@ app.post("/createAccount", async (req, res) => {
     });
   }
 });
-
 
 // For Login
 app.post("/login", async (req, res) => {
@@ -158,11 +165,9 @@ app.post("/login", async (req, res) => {
       const passwordMatch = await bcrypt.compare(enteredPassword, storedPassword);
 
       if (passwordMatch) {
-        // Store user information in the session
         req.session.user = {
           id: result.rows[0].user_id,
           firstName: result.rows[0].first_name,
-          // Add other user-related information as needed
         };
 
         const welcomeMessage = `Welcome, ${result.rows[0].first_name}!`;
@@ -184,25 +189,94 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// For Bio Pages
-app.get("/views/blank.ejs",(req, res) => {
-  res.render('blank');
+// For create employee account
+app.post("/createEmployeeAccount", async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    const employeeId = req.body.employeeId;
+    const password = req.body.password;
+
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    const insertSql = `
+      INSERT INTO employee (employee_id, password)
+      VALUES ($1, $2)
+    `;
+
+    await client.query(insertSql, [employeeId, hashedPassword]);
+
+    req.session.employee = {
+      employeeId: employeeId,
+    };
+
+    const welcomeMessage = `Welcome, Employee ${employeeId}!`;
+
+    res.render('index', { message: welcomeMessage });
+
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: err.message || "Internal Server Error",
+    });
+  }
 });
 
-app.get("/views/dav.ejs",(req, res) => {
-  res.render('dav');
+// For employee login
+app.post("/employee-login", async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    const employeeId = req.body.employeeId;
+    const enteredPassword = req.body.password;
+
+    const querySql = `
+      SELECT * FROM employee WHERE employee_id = $1
+    `;
+
+    const result = await client.query(querySql, [employeeId]);
+
+    if (result.rows.length > 0) {
+      const storedPassword = result.rows[0].password;
+
+      const passwordMatch = await bcrypt.compare(enteredPassword, storedPassword);
+
+      if (passwordMatch) {
+        req.session.employee = {
+          id: result.rows[0].id,
+          employeeId: result.rows[0].employee_id,
+        };
+
+        const welcomeMessage = `Welcome, ${result.rows[0].employee_id}!`;
+
+        res.render('index', { message: welcomeMessage });
+      } else {
+        res.render('employeeLogin', { errorMessage: "Invalid Employee ID or password" });
+      }
+    } else {
+      res.render('employeeLogin', { errorMessage: "Invalid Employee ID or password" });
+    }
+
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: err.message || "Internal Server Error",
+    });
+  }
 });
 
-app.get("/views/grace.ejs",(req, res) => {
-  res.render('grace');
-});
-
-app.get("/views/izzy.ejs",(req, res) => {
-  res.render('izzy');
-});
-
-app.get("/views/margret.ejs",(req, res) => {
-  res.render('margret');
+// For Logout
+app.post("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Error destroying session:", err);
+      res.status(500).json({ error: "Internal Server Error" });
+    } else {
+      res.redirect("/");
+    }
+  });
 });
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

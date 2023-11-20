@@ -1,4 +1,3 @@
-<!-- header.ejs -->
 <header>
   <div id="b-head">
     <h1>Dr. Blank's Veterinary Clinic</h1>
@@ -83,7 +82,6 @@
       <li><a href="/WellnessWizard.ejs">Wellness Wizard</a></li>
       <li><a href="/resources.ejs">Resources</a></li>
       <li><a href="/about.ejs">About</a></li>
-      <li><a href="/employeeLogin.ejs">Employee Login</a></li>
     </ul>
   </nav>
 
@@ -91,6 +89,13 @@
     <% if (typeof user !== 'undefined' && user !== null) { %>
       <div id="user-greeting">
         Welcome, <%= user.firstName %>!
+        <form action="/logout" method="post" style="display: inline;">
+          <a id="logout-button" class="button-common" href="#" onclick="this.closest('form').submit();">Logout</a>
+        </form>
+      </div>
+    <% } else if (typeof employee !== 'undefined' && employee !== null) { %>
+      <div id="user-greeting">
+        Welcome, Employee <%= employee.employeeId %>!
         <form action="/logout" method="post" style="display: inline;">
           <a id="logout-button" class="button-common" href="#" onclick="this.closest('form').submit();">Logout</a>
         </form>
