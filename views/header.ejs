@@ -1,53 +1,101 @@
+<!-- header.ejs -->
 <header>
-    <div id="b-head">
-      <h1>Dr. Blank's Veterinary Clinic</h1>
-    </div>
+  <div id="b-head">
+    <h1>Dr. Blank's Veterinary Clinic</h1>
+  </div>
 
-    <style>
-      header {
-        background-color: #f0f8ff;
-        padding: 10px;
-        text-align: center;
-      }
+  <style>
+    header {
+      background-color: #f0f8ff;
+      padding: 10px;
+      text-align: center;
+    }
 
-      h1 {
-        color: black;
-        font-size: 3em;
-        text-shadow: 2px 2px 2px #888888;
-        font-family: 'Comic Sans MS';
-      }
+    h1 {
+      color: black;
+      font-size: 3em;
+      text-shadow: 2px 2px 2px #888888;
+      font-family: 'Comic Sans MS';
+    }
 
-      nav ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
 
-      nav li {
-        display: inline-block;
-        margin-right: 25px;
-      }
+    nav li {
+      display: inline-block;
+      margin-right: 25px;
+    }
 
-      nav a {
-        text-decoration: none;
-        color: #00bfff;
-        transition: color 0.3s;
-        font-size: 1.5em;
-        font-family: 'Comic Sans MS';
-      }
+    nav a {
+      text-decoration: none;
+      color: #00bfff;
+      transition: color 0.3s;
+      font-size: 1.5em;
+      font-family: 'Comic Sans MS';
+    }
 
-      nav a:hover {
-        color: #808080;
-      }
-    </style>
-  
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/WellnessWizard.ejs">Wellness Wizard</a></li>
-            <li><a href="/resources.ejs">Resources</a></li>
-            <li><a href="/about.ejs">About</a></li>
-            <li><a href="/login.ejs">Login</a></li>
-          </ul>
-    </nav>
+    nav a:hover {
+      color: #808080;
+    }
+
+    .button-common {
+      display: inline-block;
+      padding: 5px 10px;
+      background-color: #00bfff;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      border: 2px solid black;
+      font-family: 'Comic Sans MS';
+      transition: background-color 0.3s;
+      font-size: 1.5em;
+    }
+
+    #login-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    #logout-button {
+      font-size: 0.75em;
+    }
+
+    #login-button a:hover,
+    #logout-button:hover {
+      background-color: #888888;
+    }
+
+    #user-greeting {
+      display: inline-block;
+      padding: 10px;
+      font-size: 1.5em;
+      font-family: 'Comic Sans MS';
+    }
+  </style>
+
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/WellnessWizard.ejs">Wellness Wizard</a></li>
+      <li><a href="/resources.ejs">Resources</a></li>
+      <li><a href="/about.ejs">About</a></li>
+    </ul>
+  </nav>
+
+  <div id="login-button">
+    <% if (typeof user !== 'undefined' && user !== null) { %>
+      <div id="user-greeting">
+        Welcome, <%= user.firstName %>!
+        <form action="/logout" method="post" style="display: inline;">
+          <a id="logout-button" class="button-common" href="#" onclick="this.closest('form').submit();">Logout</a>
+        </form>
+      </div>
+    <% } else { %>
+      <a href="/login.ejs" class="button-common">Login</a>
+    <% } %>
+  </div>
 </header>
