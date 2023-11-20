@@ -22,6 +22,7 @@ app.use(express.urlencoded({extended: true}));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+// For general navigation
 app.get("/", (req, res) => {
   res.render('index');
 });
@@ -51,7 +52,6 @@ app.get("/createAccount.ejs",(req, res) => {
 });
 
 // For Wellness Wizard
-
 app.get("/app", (req, res) => {
   res.redirect('/WellnessWizard');
 });
@@ -125,8 +125,6 @@ app.post("/createAccount", async (req, res) => {
 });
 
 
-
-
 // For Login
 app.post("/login", async (req, res) => {
   try {
@@ -168,8 +166,25 @@ app.post("/login", async (req, res) => {
   }
 });
 
+// For Bio Pages
+app.get("/views/blank.ejs",(req, res) => {
+  res.render('blank');
+});
 
+app.get("/views/dav.ejs",(req, res) => {
+  res.render('dav');
+});
 
+app.get("/views/grace.ejs",(req, res) => {
+  res.render('grace');
+});
 
+app.get("/views/izzy.ejs",(req, res) => {
+  res.render('izzy');
+});
+
+app.get("/views/margret.ejs",(req, res) => {
+  res.render('margret');
+});
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
