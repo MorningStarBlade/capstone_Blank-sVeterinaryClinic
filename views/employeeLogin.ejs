@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./css/index.css">
+  <%- include('css/indexCss'); %>
+  <%- include('css/employeeLoginCss.ejs'); %>
   <title>Blank's Veterinary Clinic</title>
 </head>
 <body id="body">
@@ -23,6 +24,7 @@
         <button>Login</button>
       </form>
     </p>
+    <p><strong>Please talk to your employer if you do not have an employee ID.</strong></p>
   </div>
 
   <%- include('footer'); %>
