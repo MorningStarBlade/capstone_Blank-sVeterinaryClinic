@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./css/index.css">
+  <%- include('css/indexCss'); %>
+  <%- include('css/loginCss'); %>
   <title>Blank's Veterinary Clinic</title>
 </head>
 <body id="body">
@@ -20,7 +21,7 @@
       <p style="color: red;"><%= errorMessage %></p>
     <% } %>
     
-    <h2>Login:</h2>
+    <h2>Patient Login:</h2>
     <p>
       <form action="/login" method="POST">
         <label for="email">Email:</label><br>
