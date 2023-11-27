@@ -21,10 +21,12 @@ CREATE TABLE IF NOT EXISTS users (
   password TEXT NOT NULL
 );
 
-DROP TABLE employee;
+DROP TABLE IF EXISTS employee;
 
 CREATE TABLE IF NOT EXISTS employee (
   id SERIAL PRIMARY KEY,
-  employee_id TEXT NOT NULL,
+  first_Name TEXT NOT NULL,
+  last_Name TEXT NOT NULL,
+  employee_email TEXT NOT NULL,
   password TEXT NOT NULL
 );

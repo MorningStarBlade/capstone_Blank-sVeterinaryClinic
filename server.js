@@ -189,6 +189,8 @@ app.post("/login", async (req, res) => {
         req.session.user = {
           id: result.rows[0].user_id,
           firstName: result.rows[0].first_name,
+          lastName: result.rows[0].last_name,
+          email: result.rows[0].email,
         };
 
         const welcomeMessage = `Welcome, ${result.rows[0].first_name}!`;
@@ -210,28 +212,35 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// For create employee account
 app.post("/createEmployeeAccount", async (req, res) => {
   try {
     const client = await pool.connect();
 
-    const employeeId = req.body.employeeId;
+    const employeeEmail = req.body.employeeEmail;
+    const firstName = req.body.firstName;  
+    const lastName = req.body.lastName;    
     const password = req.body.password;
+
+    if (!employeeEmail.endsWith("@blanksvetclinic.com")) {
+      return res.status(400).render('createEmployeeAccount', { errorMessage: "Invalid email" });
+    }
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const insertSql = `
-      INSERT INTO employee (employee_id, password)
-      VALUES ($1, $2)
+      INSERT INTO employee (employee_email, first_Name, last_Name, password)
+      VALUES ($1, $2, $3, $4)
     `;
 
-    await client.query(insertSql, [employeeId, hashedPassword]);
+    await client.query(insertSql, [employeeEmail, firstName, lastName, hashedPassword]);
 
     req.session.employee = {
-      employeeId: employeeId,
+      employeeEmail: employeeEmail,
+      firstName: firstName,  
+      lastName: lastName,   
     };
 
-    const welcomeMessage = `Welcome, Employee ${employeeId}!`;
+    const welcomeMessage = `Welcome, Employee ${firstName} ${lastName}!`;
 
     res.render('index', { message: welcomeMessage });
 
@@ -244,19 +253,21 @@ app.post("/createEmployeeAccount", async (req, res) => {
   }
 });
 
+
+
 // For employee login
 app.post("/employee-login", async (req, res) => {
   try {
     const client = await pool.connect();
 
-    const employeeId = req.body.employeeId;
+    const employeeEmail = req.body.employeeEmail;
     const enteredPassword = req.body.password;
 
     const querySql = `
-      SELECT * FROM employee WHERE employee_id = $1
+      SELECT * FROM employee WHERE employee_email = $1
     `;
 
-    const result = await client.query(querySql, [employeeId]);
+    const result = await client.query(querySql, [employeeEmail]);
 
     if (result.rows.length > 0) {
       const storedPassword = result.rows[0].password;
@@ -266,17 +277,19 @@ app.post("/employee-login", async (req, res) => {
       if (passwordMatch) {
         req.session.employee = {
           id: result.rows[0].id,
-          employeeId: result.rows[0].employee_id,
+          employeeEmail: result.rows[0].employee_email,
+          firstName: result.rows[0].first_name,
+          lastName: result.rows[0].last_name,
         };
 
-        const welcomeMessage = `Welcome, ${result.rows[0].employee_id}!`;
+        const welcomeMessage = `Welcome, ${result.rows[0].first_name} ${result.rows[0].last_name}!`;
 
         res.render('index', { message: welcomeMessage });
       } else {
-        res.render('employeeLogin', { errorMessage: "Invalid Employee ID or password" });
+        res.render('employeeLogin', { errorMessage: "Invalid Employee email or password" });
       }
     } else {
-      res.render('employeeLogin', { errorMessage: "Invalid Employee ID or password" });
+      res.render('employeeLogin', { errorMessage: "Invalid Employee email or password" });
     }
 
     client.release();
@@ -287,6 +300,18 @@ app.post("/employee-login", async (req, res) => {
     });
   }
 });
+
+// For Profile
+app.get("/profile", (req, res) => {
+  if (req.session.user) {
+    res.render('userProfile', { user: req.session.user });
+  } else if (req.session.employee) {
+    res.render('employeeProfile', { employee: req.session.employee });
+  } else {
+    res.redirect('/login');
+  }
+});
+
 
 // For Logout
 app.post("/logout", (req, res) => {

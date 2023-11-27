@@ -14,13 +14,21 @@
     <h2>Create an Employee Account:</h2>
     <p>
       <form action="/createEmployeeAccount" method="POST">
-        <label for="employeeId">Employee ID:</label><br>
-        <input type="text" id="employeeId" name="employeeId" required><br>
-
+        <label for="employeeEmail">Employee Email:</label><br>
+        <input type="text" id="employeeEmail" name="employeeEmail" required><br>
+        
+        <label for="firstName">First name:</label><br>
+        <input type="text" id="first_Name" name="firstName"><br>
+        
+        <label for="lastName">Last name:</label><br>
+        <input type="text" id="last_Name" name="lastName"><br>
+        
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password" required><br>
-
+        
         <button type="submit">Create Employee Account</button>
+        
+        
       </form>
     </p>
   </div>

@@ -82,6 +82,11 @@
       <li><a href="/WellnessWizard.ejs">Wellness Wizard</a></li>
       <li><a href="/resources.ejs">Resources</a></li>
       <li><a href="/about.ejs">About</a></li>
+
+      <% if (user || employee) { %>
+        <li><a href="/profile">Profile</a></li>
+      <% } %>
+      
     </ul>
   </nav>
 
@@ -95,7 +100,7 @@
       </div>
     <% } else if (typeof employee !== 'undefined' && employee !== null) { %>
       <div id="user-greeting">
-        Welcome, Employee <%= employee.employeeId %>!
+        Welcome, <%= employee.firstName %>!
         <form action="/logout" method="post" style="display: inline;">
           <a id="logout-button" class="button-common" href="#" onclick="this.closest('form').submit();">Logout</a>
         </form>
