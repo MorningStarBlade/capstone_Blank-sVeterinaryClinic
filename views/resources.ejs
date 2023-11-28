@@ -23,6 +23,12 @@
         <a href="#faq">FAQ</a> |
         <a href="#additional-resources">Additional Resources</a>
       </nav>
+      <!--Search Bar-->
+      <div id="search-container">
+        <input type="text" id="searchBar" placeholder="Search..." aria-label="Search">
+        <button onclick="searchContent()">Search</button>
+      </div>
+      
     </header>
     <br>
     <hr>
@@ -188,6 +194,31 @@
           icon.innerHTML = '▼';
         }
       }
+
+      // For Search Bar
+      function searchContent() {
+        // Retrieve the search query
+        var input = document.getElementById('searchBar');
+        var filter = input.value.toUpperCase();
+        
+        // Retrieve all the sections that might contain the searchable content
+        var sections = document.querySelectorAll('section');
+
+        // Loop through all sections and hide those that don't match the search query
+        sections.forEach(function(section) {
+          // Retrieve all text elements within the section
+          var textElements = section.querySelectorAll('h1, h2, h3, h4, p, li');
+          
+          // This flag will be true if any text element within the section matches the search query
+          var sectionContainsQuery = Array.from(textElements).some(function(element) {
+            var textValue = element.textContent || element.innerText;
+            return textValue.toUpperCase().indexOf(filter) > -1;
+          });
+
+          // Show or hide the entire section based on the flag
+          section.style.display = sectionContainsQuery ? '' : 'none';
+        });
+    }
     </script>
     </div>
 </body>
