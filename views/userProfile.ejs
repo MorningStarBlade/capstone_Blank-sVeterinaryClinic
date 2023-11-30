@@ -3,20 +3,78 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <%- include('css/indexCss'); %>
   <title>User Profile</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: <%= user.backgroundColor || '#ffffff' %>;
+    }
+
+    #user-profile {
+      padding: 20px;
+      margin: 20px;
+    }
+
+    #user-image {
+      max-width: 115px;
+      max-height: 150px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      border-radius: 80%;
+      border: 2px solid black;
+    }
+
+    .user-info {
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body id="body">
 
   <%- include('header'); %>
 
   <div id="main">
-    <h2>User Profile:</h2>
-    <p>
-        First Name: <%= user.firstName %><br>
-        Last Name: <%= user.lastName %><br>
-        Email: <%= user.email %>
-    </p>
+    <div id="user-profile">
+      <h2>User Profile</h2>
+      
+      <div id="user-image">
+        <img src="/pictures/<%= user.avatar || 'Male1.jpg' %>" alt="User Avatar">
+      </div>
+
+      <div class="user-info">
+        <strong>First Name:</strong> <%= user.firstName %>
+      </div>
+      <div class="user-info">
+        <strong>Last Name:</strong> <%= user.lastName %>
+      </div>
+      <div class="user-info">
+        <strong>Email:</strong> <%= user.email %>
+      </div>
+
+      <form action="/updateAvatar" method="post">
+        <label for="avatar">Choose Avatar:</label>
+        <select name="avatar" id="avatar">
+          <option value="Male1.jpg">Male 1</option>
+          <option value="Male2.jpg">Male 2</option>
+          <option value="Female1.jpg">Female 1</option>
+          <option value="Female2.jpg">Female 2</option>
+        </select>
+        <button type="submit">Update Avatar</button>
+      </form>
+
+      <form action="/updateColor" method="post">
+        <label for="color">Choose Background Color:</label>
+        <select name="color" id="color">
+          <option value="#C9A9A6">Dusty Rose</option>
+          <option value="#78866b">Sage</option>
+          <option value="#CCCCFF">Periwinkle</option>
+          <option value="#C04E01">Burnt Orange</option>
+          <option value="#967BB6">Lavendar</option>
+          <option value="#FFFFB1">Dandelion</option>
+        </select>
+        <button type="submit">Update Color</button>
+      </form>
+    </div>
   </div>
 
   <%- include('footer'); %>

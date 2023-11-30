@@ -312,6 +312,19 @@ app.get("/profile", (req, res) => {
   }
 });
 
+// Profile color
+app.post("/updateColor", (req, res) => {
+  const selectedColor = req.body.color;
+  req.session.user.backgroundColor = selectedColor;
+  res.redirect("/profile");
+});
+
+// Profile Avatar
+app.post("/updateAvatar", (req, res) => {
+  const selectedAvatar = req.body.avatar;
+  req.session.user.avatar = selectedAvatar;
+  res.redirect("/profile");
+});
 
 // For Logout
 app.post("/logout", (req, res) => {
