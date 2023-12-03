@@ -38,7 +38,7 @@
       <h2>User Profile</h2>
       
       <div id="user-image">
-        <img src="/pictures/<%= user.avatar || 'Male1.jpg' %>" alt="User Avatar">
+        <img src="/pictures/<%= user.avatar || 'Male1.jpg' %>" alt="User Avatar" id="profileImage">
       </div>
 
       <div class="user-info">
@@ -59,7 +59,7 @@
           <option value="Female1.jpg">Female 1</option>
           <option value="Female2.jpg">Female 2</option>
         </select>
-        <button type="submit">Update Avatar</button>
+        <button type="submit" id="updateAvatarBtn">Update Avatar</button>
       </form>
 
       <form action="/updateColor" method="post">
@@ -72,12 +72,16 @@
           <option value="#967BB6">Lavendar</option>
           <option value="#FFFFB1">Dandelion</option>
         </select>
-        <button type="submit">Update Color</button>
+        <button type="submit" id="updateColorBtn">Update Color</button>
       </form>
     </div>
   </div>
 
   <%- include('footer'); %>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+  <script type="text/javascript" src="/jquery/profile.js"></script>
 
 </body>
 </html>

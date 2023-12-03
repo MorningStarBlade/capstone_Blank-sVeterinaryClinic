@@ -126,10 +126,20 @@
     <% } %>
   </div>
   
+
   <% if (user && user.avatar) { %>
     <div id="user-avatar">
-      <img src="/pictures/<%= user.avatar %>" alt="User Avatar">
+      <img id="headingAvatar" src="/pictures/<%= user.avatar %>" alt="User Avatar">
+    </div>
+  <% } else { %>
+    <div id="user-avatar">
+      <img id="headingAvatar" src="/pictures/defaultProfile.jpg" alt="Default Avatar">
     </div>
   <% } %>
+  
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+  <script type="text/javascript" src="/jquery/profile.js"></script>
 
 </header>
