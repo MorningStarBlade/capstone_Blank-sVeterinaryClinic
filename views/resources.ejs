@@ -6,9 +6,16 @@
   <%- include('css/indexCss'); %>
   <%- include('css/resourceCss'); %>
   <title>Blank's Veterinary Clinic</title>
-  <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v6.5.0/css/ol.css" type="text/css">
-<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v6.5.0/build/ol.js"></script>
+
+  <!--Scripts for dynamic map-->
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.js"></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css' type='text/css' />
+
 </head>
+
+
 <body id="body">
 
   <%- include('header'); %>
@@ -23,6 +30,8 @@
         <a href="#faq">FAQ</a> |
         <a href="#additional-resources">Additional Resources</a>
       </nav>
+
+
       <!--Search Bar-->
       <div id="search-container">
         <input type="text" id="searchBar" placeholder="Search..." aria-label="Search">
@@ -57,56 +66,7 @@
     </section>
     <br>
     <hr>
-    <section id="locations">
-      <h3>Find the nearest clinic near you:</h3>
-      <p>
-        Access Blank's Vet Clinic locations easily with our interactive map. Just enter your zip code and click "Find Nearest Clinic" to view the closest facility. The map will zoom in on the location, and you can click markers for details about each clinic. This feature is designed for convenience and can be used on any device, ensuring you're always just a few clicks away from finding the best care for your pet.
-      </p>
-      <div class="zip-input-container">
-        <label for="zip-code">Enter Zip Code:</label>
-        <input type="text" id="zip-code" name="zip-code">
-        <button onclick="focusOnNearestClinic()">Find Nearest Clinic</button>
-      </div>
-      <br>
-      <div id="map" class="map"></div>
-      <script type="text/javascript">
-
-        var zipCodeToCoordinatesMap = {
-          '54701': [-91.4984941, 44.811349], // Eau Claire, WI
-          '53202': [-87.9064736, 43.0389025], // Milwaukee, WI
-          '53703': [-89.4012302, 43.0730517], // Madison, WI
-          '54301': [-88.019826, 44.519159],   // Green Bay, WI
-          '54911': [-87.657584, 44.261931],   // Appleton, WI
-        };
-      
-        // Initialize map
-        var map = new ol.Map({
-          target: 'map',
-          layers: [
-            new ol.layer.Tile({
-              source: new ol.source.OSM()
-            })
-          ],
-          view: new ol.View({
-            center: ol.proj.fromLonLat([37.41, 8.82]), // Center of the clinic locations
-            zoom: 4
-          })
-        });
-      
-        function focusOnNearestClinic() {
-          var zipCodeInput = document.getElementById('zip-code').value.trim();
-          var coordinates = zipCodeToCoordinatesMap[zipCodeInput];
-      
-          if (coordinates) {
-            map.getView().animate({ center: ol.proj.fromLonLat(coordinates), zoom: 10 });
-          } else {
-            alert("No clinic found for this zip code. Please enter a valid zip code.");
-          }
-        }
-      </script>
-    </section>
-    <br>
-    <hr>
+  
     <section id="faq">
       <h3>FAQ</h3>
       <h4 onclick="toggleContent('question1', 'icon1');" class="toggle-icon">
@@ -150,48 +110,371 @@
         </ul>
       </section>
       <br>
+      <hr>
+
+  <section id="locations">
+      <h3>Find the nearest clinic:</h3>
+      <p>
+        Access Blank's Vet Clinic locations easily with our interactive map.
+      </p>
+    <br>
+
+    <!--New map using MAPBOX API-->
+
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.css" type="text/css">
+
+  <!--Containers for map and sidebar
+  <div class="container">
+    <div class="sidebar">
+      <div class='heading'>
+        <h3>Our clinic locations</h3>
+      </div>
+      <div id='listings' class='listings'></div>
+    </div>
+    -->
+    <div class="map-container">
+      <div id="map" style='width: 800px; height: 500px;'></div>
+    </div>
+  </div>
+  <br>
 
   <%- include('footer'); %>
 
-    <script>
-      // For FAQ dropdown menu
-      function toggleContent(id, iconId) {
-        var content = document.getElementById(id);
-        var icon = document.getElementById(iconId);
-        if (content.style.display === "block") {
-          content.style.display = "none";
-          icon.innerHTML = '►';
-        } else {
-          content.style.display = "block";
-          icon.innerHTML = '▼';
+  <script>
+    // For FAQ dropdown menu
+    function toggleContent(id, iconId) {
+      var content = document.getElementById(id);
+      var icon = document.getElementById(iconId);
+      if (content.style.display === "block") {
+        content.style.display = "none";
+        icon.innerHTML = '►';
+      } else {
+        content.style.display = "block";
+        icon.innerHTML = '▼';
+      }
+    }
+
+    // For Search Bar
+    function searchContent() {
+      // Retrieve the search query
+      var input = document.getElementById('searchBar');
+      var filter = input.value.toUpperCase();
+      
+      // Retrieve all the sections that might contain the searchable content
+      var sections = document.querySelectorAll('section');
+
+      // Loop through all sections and hide those that don't match the search query
+      sections.forEach(function(section) {
+        // Retrieve all text elements within the section
+        var textElements = section.querySelectorAll('h1, h2, h3, h4, p, li');
+        
+        // This flag will be true if any text element within the section matches the search query
+        var sectionContainsQuery = Array.from(textElements).some(function(element) {
+          var textValue = element.textContent || element.innerText;
+          return textValue.toUpperCase().indexOf(filter) > -1;
+        });
+
+        // Show or hide the entire section based on the flag
+        section.style.display = sectionContainsQuery ? '' : 'none';
+      });
+  }
+  
+  // Map Functionality 
+    mapboxgl.accessToken = 'pk.eyJ1IjoibW01MzI0OSIsImEiOiJjbHBxNGRicWQwNGVwMnFrOG04NGVsenc3In0.yijzGPbqporkWbRjs-_pBQ';
+
+    const map = new mapboxgl.Map({
+      container: 'map',
+      // Placed markers with MapBox Studio
+      style: 'mapbox://styles/mm53249/clpq7ao2g00bq01px3l2aejms',
+      center: [-89.500000, 44.500000], // Center the map on Wisconsin
+      zoom: 6
+    });
+
+    map.on('load', () => {
+      map.addSource('places', {
+      type: 'geojson',
+      data: clinics
+    });
+    
+    //addMarkers();
+    //buildLocationList(clinic);
+  });
+
+  function addMarkers() {
+    /* For each feature in the GeoJSON object above: */
+    for (const marker of clinics.features) {
+      /* Create a div element for the marker. */
+      const el = document.createElement('div');
+      /* Assign a unique `id` to the marker. */
+      el.id = `marker-${marker.properties.id}`;
+      /* Assign the `marker` class to each marker for styling. */
+      el.className = 'marker';
+
+      /**
+       * Create a marker and add it to the map.
+       **/
+      new mapboxgl.Marker(el, { offset: [0, -23] })
+        .setLngLat(marker.geometry.coordinates)
+        .addTo(map);
+
+        el.addEventListener('click', (e) => {
+        /* Fly to the point */
+        flyToStore(marker);
+        /* Close all other popups and display popup for clicked store */
+        createPopUp(marker);
+        /* Highlight listing in sidebar */
+        const activeItem = document.getElementsByClassName('active');
+        e.stopPropagation();
+        if (activeItem[0]) {
+          activeItem[0].classList.remove('active');
+        }
+        const listing = document.getElementById(`listing-${marker.properties.id}`);
+        listing.classList.add('active');
+  });
+    }
+  }
+
+  // Clinic Locations
+  const clinics = {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-91.4984941, 44.811349]
+        },
+        "properties": {
+          "name": "Eau Claire, WI"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-87.9064736, 43.0389025]
+        },
+        "properties": {
+          "name": "Milwaukee, WI"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-89.4012302, 43.0730517]
+        },
+        "properties": {
+          "name": "Madison, WI"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-88.019826, 44.519159]
+        },
+        "properties": {
+          "name": "Green Bay, WI"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-88.41538, 44.261931]
+        },
+        "properties": {
+          "name": "Appleton, WI"
         }
       }
+    ]
+  };
 
-      // For Search Bar
-      function searchContent() {
-        // Retrieve the search query
-        var input = document.getElementById('searchBar');
-        var filter = input.value.toUpperCase();
-        
-        // Retrieve all the sections that might contain the searchable content
-        var sections = document.querySelectorAll('section');
+  /* Assign a unique ID to each store */
+  clinics.features.forEach(function (store, i) {
+    store.properties.id = i;
+  });
 
-        // Loop through all sections and hide those that don't match the search query
-        sections.forEach(function(section) {
-          // Retrieve all text elements within the section
-          var textElements = section.querySelectorAll('h1, h2, h3, h4, p, li');
-          
-          // This flag will be true if any text element within the section matches the search query
-          var sectionContainsQuery = Array.from(textElements).some(function(element) {
-            var textValue = element.textContent || element.innerText;
-            return textValue.toUpperCase().indexOf(filter) > -1;
-          });
+  map.on('load', () => {
+    /* Add the data to your map as a layer */
+    map.addLayer({
+      id: 'locations',
+      type: 'circle',
+      /* Add a GeoJSON source containing place coordinates and information. */
+      source: {
+        type: 'geojson',
+        data: clinics
+      }
+    });
 
-          // Show or hide the entire section based on the flag
-          section.style.display = sectionContainsQuery ? '' : 'none';
-        });
+    buildLocationList(clinics);
+    addMarkers();
+  });
+
+  function buildLocationList(clinics) {
+    for (const store of clinics.features) {
+      /* Add a new listing section to the sidebar. */
+      const listings = document.getElementById('listings');
+      const listing = listings.appendChild(document.createElement('div'));
+      /* Assign a unique `id` to the listing. */
+      listing.id = `listing-${store.properties.id}`;
+      /* Assign the `item` class to each listing for styling. */
+      listing.className = 'item';
+
+      /* Add the link to the individual listing created above. */
+      const link = listing.appendChild(document.createElement('a'));
+      link.href = '#';
+      link.className = 'title';
+      link.id = `link-${store.properties.id}`;
+      link.innerHTML = `${store.properties.address}`;
+
+      /* Add details to the individual listing. */
+      const details = listing.appendChild(document.createElement('div'));
+      details.innerHTML = `${store.properties.city}`;
+      if (store.properties.phone) {
+        details.innerHTML += ` · ${store.properties.phoneFormatted}`;
+      }
+      if (store.properties.distance) {
+        const roundedDistance = Math.round(store.properties.distance * 100) / 100;
+        details.innerHTML += `<div><strong>${roundedDistance} miles away</strong></div>`;
+      }
     }
-    </script>
-    </div>
+  }
+
+      const geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken, // Set the access token
+      mapboxgl: mapboxgl, // Set the mapbox-gl instance
+      marker: true, // Use the geocoder's default marker style
+      bbox: [-92.888114, 42.491983, -86.805415, 47.080621] // Set coordinates range to Southwest and northeast corners of Wisconsin
+
+    });
+
+    // Geo coder controls 
+    map.addControl(geocoder, 'top-left');
+
+    // Zoom and rotation controls
+    map.addControl(new mapboxgl.NavigationControl());
+
+    // Directions controls 
+    map.addControl(
+    new MapboxDirections({
+    accessToken: mapboxgl.accessToken
+    }),
+    'top-left'
+  
+  );
+
+  
+  // Handle when a user clicks a link in the sidebar
+  link.addEventListener('click', function () {
+  for (const feature of clinics.features) {
+    if (this.id === `link-${feature.properties.id}`) {
+      flyToStore(feature);
+      createPopUp(feature);
+    }
+  }
+  const activeItem = document.getElementsByClassName('active');
+  if (activeItem[0]) {
+      activeItem[0].classList.remove('active');
+    }
+    this.parentNode.classList.add('active');
+  });
+
+
+  map.on('click', (event) => {
+    /* Determine if a feature in the "locations" layer exists at that point. */
+    const features = map.queryRenderedFeatures(event.point, {
+      layers: ['locations']
+  });
+
+  /* If it does not exist, return */
+  if (!features.length) return;
+
+  const clickedPoint = features[0];
+
+  /* Fly to the point */
+  flyToStore(clickedPoint);
+
+  /* Close all other popups and display popup for clicked store */
+  createPopUp(clickedPoint);
+
+  /* Highlight listing in sidebar (and remove highlight for all other listings) */
+  const activeItem = document.getElementsByClassName('active');
+  if (activeItem[0]) {
+    activeItem[0].classList.remove('active');
+  }
+  const listing = document.getElementById(
+    `listing-${clickedPoint.properties.id}`
+  );
+  listing.classList.add('active');
+});
+
+
+  function buildLocationList(clinics) {
+  for (const store of clinics.features) {
+    /* Add a new listing section to the sidebar. */
+    const listings = document.getElementById('listings');
+    const listing = listings.appendChild(document.createElement('div'));
+    /* Assign a unique `id` to the listing. */
+    listing.id = `listing-${store.properties.id}`;
+    /* Assign the `item` class to each listing for styling. */
+    listing.className = 'item';
+
+    /* Add the link to the individual listing created above. */
+    const link = listing.appendChild(document.createElement('a'));
+    link.href = '#';
+    link.className = 'title';
+    link.id = `link-${store.properties.id}`;
+    link.innerHTML = `${store.properties.address}`;
+
+    /* Add details to the individual listing. */
+    const details = listing.appendChild(document.createElement('div'));
+    details.innerHTML = `${store.properties.city}`;
+    if (store.properties.phone) {
+      details.innerHTML += ` · ${store.properties.phoneFormatted}`;
+    }
+    if (store.properties.distance) {
+      const roundedDistance = Math.round(store.properties.distance * 100) / 100;
+      details.innerHTML += `<div><strong>${roundedDistance} miles away</strong></div>`;
+    }
+  }
+  }
+
+  function flyToStore(currentFeature) {
+    map.flyTo({
+      center: currentFeature.geometry.coordinates,
+      zoom: 15
+    });
+  }
+
+  function createPopUp(currentFeature) {
+    const popUps = document.getElementsByClassName('mapboxgl-popup');
+    /* Check if there is already a popup on the map and if so, remove it */
+    if (popUps[0]) popUps[0].remove();
+
+    const popup = new mapboxgl.Popup({ closeOnClick: false })
+      .setLngLat(currentFeature.geometry.coordinates)
+      .setHTML(`<h3>Dr. Blank's Vet Clinic</h3><h4>${currentFeature.properties.address}</h4>`)
+      .addTo(map);
+  }
+
+  link.addEventListener('click', function () {
+    for (const feature of clinics.features) {
+      if (this.id === `link-${feature.properties.id}`) {
+        flyToStore(feature);
+        createPopUp(feature);
+      }
+    }
+  const activeItem = document.getElementsByClassName('active');
+  if (activeItem[0]) {
+    activeItem[0].classList.remove('active');
+    }
+    this.parentNode.classList.add('active');
+  });
+  </script>
+</div>
+
 </body>
 </html>
