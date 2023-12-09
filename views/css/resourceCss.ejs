@@ -105,6 +105,7 @@ header nav a:hover {
   }
 }
 
+/* Search Bar Styles */ 
 #search-container {
   text-align: center;
   margin-bottom: 20px;
@@ -144,15 +145,6 @@ header nav a:hover {
   align-items: center; 
 }
 
-#map {  
-  display: flex;
-  justify-content: center;
-  align-items: center; 
-  top: 0; 
-  bottom: 0; 
-  width: 100%; 
-}
-
 /* Marker tweaks */
 .mapboxgl-popup-close-button {
   display: none;
@@ -179,5 +171,36 @@ header nav a:hover {
   margin: 0;
   padding: 10px;
   font-weight: 400;
+}
+
+/* Responsive Map Container */
+.map-container {
+  width: 100%; /* Full width of the parent container */
+  padding-bottom: 50%;
+  position: relative;
+}
+
+#map {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  position: absolute;
+  top: 0; 
+  bottom: 0; 
+  left: 0;
+  right: 0;
+}
+
+/* Map Media queries for different screen sizes */
+@media (max-width: 768px) {
+  .map-container {
+    padding-bottom: 65%;
+  }
+}
+
+@media (max-width: 480px) {
+  .map-container {
+    padding-bottom: 100%;
+  }
 }
 </style>
