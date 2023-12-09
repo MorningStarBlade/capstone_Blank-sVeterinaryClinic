@@ -7,7 +7,7 @@ const { Pool } = require("pg");
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const cookieParser = require("cookie-parser");
-const sessions = require('express-session');
+const sessions = require("cookie-session");
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
