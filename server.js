@@ -99,7 +99,7 @@ app.post("/app", async(req, res) => {
 
     const insertSql = `INSERT INTO appointments (name, age, animal, breed, reason, date, notes) VALUES ($1, $2, $3, $4, $5, $6, $7)`;
 
-    const insert = await client.query(insertSql, [name, age, animal, breed, reason, date, notes]);
+    await client.query(insertSql, [name, age, animal, breed, reason, date, notes]);
 
     const response = true;
 
