@@ -102,7 +102,7 @@ app.post("/app", async(req, res) => {
     await client.query(insertSql, [name, age, animal, breed, reason, date, notes]);
 
     const response = true;
-
+    
     res.json(response);
 
     client.release();
