@@ -35,7 +35,7 @@
       searchContent();
     }, 250);
 
-    document.getElementById('searchBar').addEventListener('input', debouncedSearch);
+    // document.getElementById('searchBar').addEventListener('input', debouncedSearch);
 
     function clearSearch() {
       document.getElementById('searchBar').value = '';
@@ -69,11 +69,11 @@
       });
     }
   </script>
-
-  <input type="text" id="searchBar" placeholder="Search..." aria-label="Search">
-  <button onclick="javascript:searchContent();">Search</button>
-  <button onclick="javascript:clearSearch();">Clear</button>
-
+    <!--
+    <input type="text" id="searchBar" >
+    <button onclick="javascript:searchContent();">Search</button>
+    <button onclick="javascript:clearSearch();">Clear</button> 
+    -->
 </div>
-<div id="searchResults"></div>
+
   

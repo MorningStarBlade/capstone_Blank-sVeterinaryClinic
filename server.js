@@ -7,7 +7,7 @@ const { Pool } = require("pg");
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const cookieParser = require("cookie-parser");
-const sessions = require("cookie-session");
+const sessions = require("express-session");
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -24,6 +24,12 @@ app.use(sessions({
   resave: false
 }));
 
+app.use((req, res, next) => {
+  res.locals.user = req.session.user;
+  res.locals.employee = req.session.employee;
+  next();
+});
+
 app.use("/jquery", express.static(path.join(__dirname, "jquery")));
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -33,11 +39,7 @@ app.use(express.urlencoded({ extended: true }));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use((req, res, next) => {
-  res.locals.user = req.session.user;
-  res.locals.employee = req.session.employee;
-  next();
-});
+
 
 // For general navigation
 app.get("/", (req, res) => {
@@ -80,6 +82,11 @@ app.get("/createEmployeeAccount.ejs", (req, res) => {
 app.get("/app", (req, res) => {
   res.redirect('/WellnessWizard');
 });
+
+app.get("/render-index", (req, res) => {
+  res.render('index', { message: req.session.user ? req.session.user.firstName : 'Guest' });
+});
+
 
 app.post("/app", async(req, res) => {
   res.set({
@@ -197,7 +204,7 @@ app.post("/login", async (req, res) => {
 
         const welcomeMessage = `Welcome, ${result.rows[0].first_name}!`;
 
-        res.render('index', { message: welcomeMessage });
+        return res.redirect('/render-index');
       } else {
         res.render('login', { errorMessage: "Invalid email or password" });
       }
@@ -244,7 +251,7 @@ app.post("/createEmployeeAccount", async (req, res) => {
 
     const welcomeMessage = `Welcome, Employee ${firstName} ${lastName}!`;
 
-    res.render('index', { message: welcomeMessage });
+    return res.redirect('/render-index');
 
     client.release();
   } catch (err) {
@@ -286,7 +293,7 @@ app.post("/employee-login", async (req, res) => {
 
         const welcomeMessage = `Welcome, ${result.rows[0].first_name} ${result.rows[0].last_name}!`;
 
-        res.render('index', { message: welcomeMessage });
+        return res.redirect('/render-index');
       } else {
         res.render('employeeLogin', { errorMessage: "Invalid Employee email or password" });
       }

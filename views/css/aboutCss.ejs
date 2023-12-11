@@ -1,24 +1,7 @@
 <style>
-  .pic {
-    width: 300px;
-    height: 300px;
-    float: left;
-    margin-bottom: auto;
-    margin-left: 80px;
-    margin-right: 20px;
-  }
-  
-  h3 {
-    text-align:justify;
-    margin-left: auto;
-    margin-bottom: auto;
-  }
-
-  .desc{
-    width: fit-content;
-    text-align: justify;
-    margin-bottom: 300px;
-    margin-right: auto;
+  /* Global Styles */
+  body {
+    font-family: Arial, sans-serif;
   }
 
   a {
@@ -31,43 +14,77 @@
     color: #808080;
   }
 
+  /* Main content area */
+  #main {
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 20px auto; 
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    background: #fff; 
+    border-radius: 5px;
+  }
+
+  .pic {
+    width: 300px;
+    height: 300px;
+    float: left;
+    margin-bottom: auto;
+    margin-right: 20px;
+  }
+
+  h3 {
+    text-align: justify;
+    margin-left: auto;
+    margin-bottom: auto;
+  }
+
+  .desc {
+    width: fit-content;
+    text-align: justify;
+    margin-bottom: 300px;
+    margin-right: auto;
+  }
+
   /* Extra small devices (phones, 600px and down) */
   @media only screen and (max-width: 600px) {
-    img{
-      width: 30%;
-      height: 30%;
-      margin-left: 10px;
+    .pic {
+      width: 100%;
+      height: auto;
+      margin-right: 0;
+      margin-bottom: 20px;
     }
 
-    .desc{
+    .desc {
       margin-bottom: 40px;
     }
   }
 
   /* Small devices (portrait tablets and large phones, 600px and up) */
   @media only screen and (min-width: 600px) and (max-width: 768px){
-    img{
-      width: 30%;
-      height: 30%;
-      margin-left: 20px;
+    .pic {
+      width: 100%;
+      height: auto;
+      margin-right: 0;
+      margin-bottom: 20px;
     }
 
-    .desc{
+    .desc {
       margin-bottom: 50px;
     }
   }
 
   /* Medium devices (landscape tablets, 768px and up) */
   @media only screen and (min-width: 768px) and (max-width: 992px){
-    img{
-      width: 30%;
-      height: 30%;
-      margin-left: 30px;
+    .pic {
+      width: 100%;
+      height: auto;
+      margin-right: 0;
+      margin-bottom: 30px;
     }
 
-    .desc{
+    .desc {
       margin-bottom: 220px;
     }
   }
-
 </style>
