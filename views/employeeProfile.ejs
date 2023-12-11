@@ -4,6 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <%- include('css/indexCss'); %>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    #main {
+      max-width: 600px;
+      margin: 20px auto;
+    }
+
+    h2 {
+      text-align: left;
+    }
+
+    p {
+      text-align: left;
+    }
+
+    p span {
+      font-weight: bold;
+    }
+  </style>
   <title>Employee Profile</title>
 </head>
 <body id="body">
@@ -13,10 +35,10 @@
   <div id="main">
     <h2>Employee Profile:</h2>
     <p>
-        Employee ID: <%= employee.id %><br>
-        First Name: <%= employee.firstName %><br>
-        Last Name: <%= employee.lastName %><br>
-        Email: <%= employee.employeeEmail %><br>
+      <span>Employee ID:</span> <%= employee.id %><br>
+      <span>First Name:</span> <%= employee.firstName %><br>
+      <span>Last Name:</span> <%= employee.lastName %><br>
+      <span>Email:</span> <%= employee.employeeEmail %><br>
     </p>
   </div>
 
