@@ -6,12 +6,3 @@
 Go to the latest release and download the zipped files. In order to edit and test the code, install [Node.js](https://nodejs.org/en), and in the command line type `npm install express path dotenv ejs pg bcrypt express-session cookie-parser` in order to update the required packages.
 
 
-## ToDo (due 11/20)
-* Fill in main page
-* Fill in about page
-* Fill in WellnessWizard page
-* Create database for WellnessWizard and user logins
-* Create login feature for users to see appointments
-* Fill in account page
-* Fill in patient login page
-* Fill in employee login page
