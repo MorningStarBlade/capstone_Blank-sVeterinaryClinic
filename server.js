@@ -231,7 +231,8 @@ app.post("/createEmployeeAccount", async (req, res) => {
     const password = req.body.password;
 
     if (!employeeEmail.endsWith("@blanksvetclinic.com")) {
-      return res.status(400).render('createEmployeeAccount', { errorMessage: "Invalid email" });
+      const errorMessage = `Please use your company email ending in blanksvetclinic.com`;
+      return res.status(400).render('createEmployeeAccount', { errorMessage: errorMessage });
     }
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);

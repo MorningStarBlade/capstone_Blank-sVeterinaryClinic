@@ -11,6 +11,10 @@
 
   <%- include('header'); %>
 
+  <% if (typeof errorMessage !== 'undefined') { %>
+    <p style="color: red;"><%= errorMessage %></p>
+  <% } %>
+
   <div id="main">
     <h2>Create an Employee Account:</h2>
     <p>
